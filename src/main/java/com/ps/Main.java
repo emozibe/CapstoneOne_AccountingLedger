@@ -243,7 +243,7 @@ public class Main {
                     displayPayments();
                     break;
                 case 4:
-                    // reportsSubmenu();
+                    reportsSubmenu();
                     break;
                 case 5:
                     System.out.println("\nReturning to the main menu...\n");
@@ -302,4 +302,181 @@ public class Main {
             }
         }
     }
+
+    public static void reportsSubmenu() {
+        int choice;
+        System.out.println("\nYou have selected the reports menu.");
+        System.out.println("Listed below are an assortment of filters for viewing your ledger.");
+
+        do {
+            System.out.println("\nPlease select one of the following filters -");
+            System.out.println(" 1) Current month to date");
+            System.out.println(" 2) Previous month's transactions");
+            System.out.println(" 3) Current year to date");
+            System.out.println(" 4) Previous year's transactions");
+            System.out.println(" 5) Search by vendor");
+            System.out.println(" 6) Custom search");
+            System.out.println(" 7) Return to the ledger menu");
+            System.out.println(" 8) Return to the main menu");
+            System.out.print("Please enter the number that corresponds to your selection: ");
+
+            choice = cmdscnr.nextInt();
+
+            switch (choice) {
+                case 1:
+                    monthToDate();
+                    break;
+                case 2:
+                    previousMonth();
+                    break;
+                case 3:
+                    yearToDate();
+                    break;
+                case 4:
+                    previousYear();
+                    break;
+                case 5:
+                    vendorSearch();
+                    break;
+                case 6:
+                    customSearch();
+                    break;
+                case 7:
+                    System.out.println("\nReturning to the ledger menu...");
+                    ledgerMenu();
+                    break;
+                case 8:
+                    System.out.println("\nReturning to the main menu...\n");
+                    mainMenu();
+                    break;
+                default:
+                    System.out.println("\nInvalid choice. Please try again.");
+            }
+        } while (choice != 7 || choice != 8);
+    }
+
+    public static void monthToDate() {
+        LocalDate date = LocalDate.now();
+        int year = date.getYear();
+        int month = date.getMonthValue();
+
+        DateTimeFormatter frmt = DateTimeFormatter.ofPattern("yyyy-MM-dd");
+        System.out.println("\nDisplaying all transactions made this month:\n");
+
+        boolean hasTransactions = false;
+
+        for (Transaction transaction : allTransactions) {
+            LocalDate transactionDate = LocalDate.parse(transaction.getDate(), frmt);
+
+            if (transactionDate.getYear() == year && transactionDate.getMonthValue() == month) {
+                System.out.printf("Date: %s, Time: %s, Description: %s, Vendor: %s, Amount: $%.2f%n",
+                        transaction.getDate(),
+                        transaction.getTime(),
+                        transaction.getDescription(),
+                        transaction.getVendor(),
+                        transaction.getAmount());
+                hasTransactions = true;
+            }
+        }
+
+        if (!hasTransactions) {
+            System.out.println("No transactions have been made this month.");
+        }
+    }
+
+    public static void previousMonth() {
+        LocalDate date = LocalDate.now();
+        int year = date.getYear();
+        int month = date.getMonthValue();
+
+        if (month == 1) {
+            year -= 1;
+            month = 12;
+        } else {
+            month -= 1;
+        }
+
+        DateTimeFormatter frmt = DateTimeFormatter.ofPattern("yyyy-MM-dd");
+        System.out.println("\nDisplaying all transactions made last month:\n");
+
+        boolean hasTransactions = false;
+
+        for (Transaction transaction : allTransactions) {
+            LocalDate transactionDate = LocalDate.parse(transaction.getDate(), frmt);
+
+            if (transactionDate.getYear() == year && transactionDate.getMonthValue() == month) {
+                System.out.printf("Date: %s, Time: %s, Description: %s, Vendor: %s, Amount: $%.2f%n",
+                        transaction.getDate(),
+                        transaction.getTime(),
+                        transaction.getDescription(),
+                        transaction.getVendor(),
+                        transaction.getAmount());
+                hasTransactions = true;
+            }
+        }
+
+        if (!hasTransactions) {
+            System.out.println("No transactions were made last month.");
+        }
+    }
+
+    public static void yearToDate() {
+        LocalDate date = LocalDate.now();
+        int year = date.getYear();
+
+        DateTimeFormatter frmt = DateTimeFormatter.ofPattern("yyyy-MM-dd");
+        System.out.println("\nDisplaying all transactions made this year:\n");
+
+        boolean hasTransactions = false;
+
+        for (Transaction transaction : allTransactions) {
+            LocalDate transactionDate = LocalDate.parse(transaction.getDate(), frmt);
+
+            if (transactionDate.getYear() == year) {
+                System.out.printf("Date: %s, Time: %s, Description: %s, Vendor: %s, Amount: $%.2f%n",
+                        transaction.getDate(),
+                        transaction.getTime(),
+                        transaction.getDescription(),
+                        transaction.getVendor(),
+                        transaction.getAmount());
+                hasTransactions = true;
+            }
+        }
+
+        if (!hasTransactions) {
+            System.out.println("No transactions have been made this year.");
+        }
+    }
+
+    public static void previousYear() {
+        LocalDate date = LocalDate.now();
+        int year = date.getYear() - 1;
+
+        DateTimeFormatter frmt = DateTimeFormatter.ofPattern("yyyy-MM-dd");
+        System.out.println("\nDisplaying all transactions made last year:\n");
+
+        boolean hasTransactions = false;
+
+        for (Transaction transaction : allTransactions) {
+            LocalDate transactionDate = LocalDate.parse(transaction.getDate(), frmt);
+
+            if (transactionDate.getYear() == year) {
+                System.out.printf("Date: %s, Time: %s, Description: %s, Vendor: %s, Amount: $%.2f%n",
+                        transaction.getDate(),
+                        transaction.getTime(),
+                        transaction.getDescription(),
+                        transaction.getVendor(),
+                        transaction.getAmount());
+                hasTransactions = true;
+            }
+        }
+
+        if (!hasTransactions) {
+            System.out.println("No transactions were made last year.");
+        }
+    }
+
+    public static void vendorSearch() {}
+
+    public static void customSearch() {}
 }
