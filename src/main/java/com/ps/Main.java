@@ -20,7 +20,7 @@ public class Main {
 
         System.out.println("Welcome to your accounting ledger!\n");
 
-        initialMenu();
+        mainMenu();
     }
 
     public static void readTransactions() {
@@ -44,17 +44,16 @@ public class Main {
         } catch (Exception e) {
             e.printStackTrace();
         }
-
     }
 
-    public static void initialMenu() {
+    public static void mainMenu() {
         int choice;
 
         do {
             System.out.println("Please select one of the following options -");
             System.out.println(" 1) Add a deposit");
-            System.out.println(" 2) Make a payment");
-            System.out.println(" 3) View all transactions");
+            System.out.println(" 2) Add a payment");
+            System.out.println(" 3) View your ledger");
             System.out.println(" 4) Exit ledger\n");
             System.out.print("Please enter the number that corresponds to your selection: ");
 
@@ -72,25 +71,24 @@ public class Main {
                     break;
                 case 4:
                     System.out.println("\nExiting...\nSee you soon :)");
+                    System.exit(0);
                     break;
                 default:
                     System.out.println("\nInvalid choice. Please try again.\n");
             }
-        } while (choice != 4);
+        } while (true);
     }
 
     public static void depositMenu() {
-        int cont;
+        int choice;
         System.out.println("\nYou have selected the deposit menu.");
 
         do {
             System.out.println("\nPlease enter the details of your deposit below -");
 
-            System.out.print("Date (yyyy-mm-dd): ");
-            String date = inputscnr.nextLine();
+            String date = LocalDate.now().format(DateTimeFormatter.ofPattern("yyyy-MM-dd"));
 
-            System.out.print("Time (HH:mm:ss): ");
-            String time = inputscnr.nextLine();
+            String time = LocalTime.now().format(DateTimeFormatter.ofPattern("HH:mm:ss"));
 
             System.out.print("Description: ");
             String description = inputscnr.nextLine();
@@ -129,16 +127,16 @@ public class Main {
                 System.out.println(" 2) Return to the main menu");
                 System.out.println(" 3) Exit ledger\n");
                 System.out.print("Please enter the number that corresponds to your selection: ");
-                cont = cmdscnr.nextInt();
+                choice = cmdscnr.nextInt();
                 cmdscnr.nextLine();
 
-                switch (cont) {
+                switch (choice) {
                     case 1:
                         System.out.println("\nStarting another deposit...");
                         break;
                     case 2:
                         System.out.println("\nReturning to the main menu...\n");
-                        initialMenu();
+                        mainMenu();
                         break;
                     case 3:
                         System.out.println("\nExiting...\nSee you soon :)");
@@ -146,22 +144,20 @@ public class Main {
                     default:
                         System.out.println("\nInvalid choice. Please try again.\n");
                 }
-            } while (cont < 1 || cont > 3);
-        } while (cont == 1);
+            } while (choice < 1 || choice > 3);
+        } while (choice == 1);
     }
 
     public static void paymentMenu() {
-        int cont;
+        int choice;
         System.out.println("\nYou have selected the payment menu.");
 
         do {
             System.out.println("\nPlease enter the details of your payment below -");
 
-            System.out.print("Date (yyyy-mm-dd): ");
-            String date = inputscnr.nextLine();
+            String date = LocalDate.now().format(DateTimeFormatter.ofPattern("yyyy-MM-dd"));
 
-            System.out.print("Time (HH:mm:ss): ");
-            String time = inputscnr.nextLine();
+            String time = LocalTime.now().format(DateTimeFormatter.ofPattern("HH:mm:ss"));
 
             System.out.print("Description: ");
             String description = inputscnr.nextLine();
@@ -200,16 +196,16 @@ public class Main {
                 System.out.println(" 2) Return to the main menu");
                 System.out.println(" 3) Exit ledger\n");
                 System.out.print("Please enter the number that corresponds to your selection: ");
-                cont = cmdscnr.nextInt();
+                choice = cmdscnr.nextInt();
                 cmdscnr.nextLine();
 
-                switch (cont) {
+                switch (choice) {
                     case 1:
                         System.out.println("\nStarting another payment...");
                         break;
                     case 2:
                         System.out.println("\nReturning to the main menu...\n");
-                        initialMenu();
+                        mainMenu();
                         break;
                     case 3:
                         System.out.println("\nExiting...\nSee you soon :)");
@@ -217,11 +213,93 @@ public class Main {
                     default:
                         System.out.println("\nInvalid choice. Please try again.\n");
                 }
-            } while (cont < 1 || cont > 3);
-        } while (cont == 1);
+            } while (choice < 1 || choice > 3);
+        } while (choice == 1);
     }
 
     public static void ledgerMenu() {
+        int choice;
+        System.out.println("\nYou have selected the ledger menu.");
 
+        do {
+            System.out.println("\nPlease select one of the following options -");
+            System.out.println(" 1) Display all ledger entries");
+            System.out.println(" 2) Display only deposits");
+            System.out.println(" 3) Display only payments");
+            System.out.println(" 4) Run reports");
+            System.out.println(" 5) Return to the main menu\n");
+            System.out.print("Please enter the number that corresponds to your selection: ");
+
+            choice = cmdscnr.nextInt();
+
+            switch (choice) {
+                case 1:
+                    displayAll();
+                    break;
+                case 2:
+                    displayDeposits();
+                    break;
+                case 3:
+                    displayPayments();
+                    break;
+                case 4:
+                    // reportsSubmenu();
+                    break;
+                case 5:
+                    System.out.println("\nReturning to the main menu...\n");
+                    mainMenu();
+                    break;
+                default:
+                    System.out.println("\nInvalid choice. Please try again.");
+            }
+        } while (choice != 5);
+    }
+
+    public static void displayAll() {
+        System.out.println("\nDisplaying all transactions:\n");
+
+        for (int i = allTransactions.size() - 1; i >= 0; i--) {
+            Transaction transaction = allTransactions.get(i);
+            System.out.printf("Date: %s, Time: %s, Description: %s, Vendor: %s, Amount: $%.2f\n",
+                    transaction.getDate(),
+                    transaction.getTime(),
+                    transaction.getDescription(),
+                    transaction.getVendor(),
+                    transaction.getAmount());
+        }
+    }
+
+    public static void displayDeposits() {
+        System.out.println("\nDisplaying deposits:\n");
+
+        for (int i = allTransactions.size() - 1; i >= 0; i--) {
+            Transaction transaction = allTransactions.get(i);
+
+            if (transaction.getAmount() > 0) {
+                System.out.printf("Date: %s, Time: %s, Description: %s, Vendor: %s, Amount: $%.2f\n",
+                        transaction.getDate(),
+                        transaction.getTime(),
+                        transaction.getDescription(),
+                        transaction.getVendor(),
+                        transaction.getAmount());
+            }
+        }
+    }
+
+    public static void displayPayments() {
+        System.out.println("\nDisplaying payments:\n");
+
+        for (int i = allTransactions.size() - 1; i >= 0; i--) {
+            Transaction transaction = allTransactions.get(i);
+
+            if (transaction.getAmount() < 0) {
+                System.out.printf("Date: %s, Time: %s, Description: %s, Vendor: %s, Amount: $%.2f\n",
+                        transaction.getDate(),
+                        transaction.getTime(),
+                        transaction.getDescription(),
+                        transaction.getVendor(),
+                        transaction.getAmount());
+            }
+        }
     }
 }
