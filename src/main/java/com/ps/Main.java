@@ -169,12 +169,14 @@ public class Main {
             double amount = inputscnr.nextDouble();
             inputscnr.nextLine();
 
+            amount *= -1;
+
             Transaction transaction = new Transaction(date, time, description, vendor, amount);
             allTransactions.add(transaction);
 
             try {
                 BufferedWriter bw = new BufferedWriter(new FileWriter("transactions.csv", true));
-                bw.write(String.format("\n%s|%s|%s|%s|-%.2f",
+                bw.write(String.format("\n%s|%s|%s|%s|%.2f",
                         transaction.getDate(),
                         transaction.getTime(),
                         transaction.getDescription(),
@@ -309,7 +311,7 @@ public class Main {
         System.out.println("Listed below are an assortment of filters for viewing your ledger.");
 
         do {
-            System.out.println("\nPlease select one of the following filters -");
+            System.out.println("\nPlease select one of the following reports -");
             System.out.println(" 1) Current month to date");
             System.out.println(" 2) Previous month's transactions");
             System.out.println(" 3) Current year to date");
@@ -317,7 +319,7 @@ public class Main {
             System.out.println(" 5) Search by vendor");
             System.out.println(" 6) Custom search");
             System.out.println(" 7) Return to the ledger menu");
-            System.out.println(" 8) Return to the main menu");
+            System.out.println(" 8) Return to the main menu\n");
             System.out.print("Please enter the number that corresponds to your selection: ");
 
             choice = cmdscnr.nextInt();
@@ -359,13 +361,13 @@ public class Main {
         LocalDate date = LocalDate.now();
         int year = date.getYear();
         int month = date.getMonthValue();
-
+        boolean hasTransactions = false;
         DateTimeFormatter frmt = DateTimeFormatter.ofPattern("yyyy-MM-dd");
+
         System.out.println("\nDisplaying all transactions made this month:\n");
 
-        boolean hasTransactions = false;
-
-        for (Transaction transaction : allTransactions) {
+        for (int i = allTransactions.size() - 1; i >= 0; i--) {
+            Transaction transaction = allTransactions.get(i);
             LocalDate transactionDate = LocalDate.parse(transaction.getDate(), frmt);
 
             if (transactionDate.getYear() == year && transactionDate.getMonthValue() == month) {
@@ -388,6 +390,8 @@ public class Main {
         LocalDate date = LocalDate.now();
         int year = date.getYear();
         int month = date.getMonthValue();
+        boolean hasTransactions = false;
+        DateTimeFormatter frmt = DateTimeFormatter.ofPattern("yyyy-MM-dd");
 
         if (month == 1) {
             year -= 1;
@@ -396,12 +400,10 @@ public class Main {
             month -= 1;
         }
 
-        DateTimeFormatter frmt = DateTimeFormatter.ofPattern("yyyy-MM-dd");
         System.out.println("\nDisplaying all transactions made last month:\n");
 
-        boolean hasTransactions = false;
-
-        for (Transaction transaction : allTransactions) {
+        for (int i = allTransactions.size() - 1; i >= 0; i--) {
+            Transaction transaction = allTransactions.get(i);
             LocalDate transactionDate = LocalDate.parse(transaction.getDate(), frmt);
 
             if (transactionDate.getYear() == year && transactionDate.getMonthValue() == month) {
@@ -423,13 +425,13 @@ public class Main {
     public static void yearToDate() {
         LocalDate date = LocalDate.now();
         int year = date.getYear();
-
+        boolean hasTransactions = false;
         DateTimeFormatter frmt = DateTimeFormatter.ofPattern("yyyy-MM-dd");
+
         System.out.println("\nDisplaying all transactions made this year:\n");
 
-        boolean hasTransactions = false;
-
-        for (Transaction transaction : allTransactions) {
+        for (int i = allTransactions.size() - 1; i >= 0; i--) {
+            Transaction transaction = allTransactions.get(i);
             LocalDate transactionDate = LocalDate.parse(transaction.getDate(), frmt);
 
             if (transactionDate.getYear() == year) {
@@ -451,13 +453,13 @@ public class Main {
     public static void previousYear() {
         LocalDate date = LocalDate.now();
         int year = date.getYear() - 1;
-
+        boolean hasTransactions = false;
         DateTimeFormatter frmt = DateTimeFormatter.ofPattern("yyyy-MM-dd");
+
         System.out.println("\nDisplaying all transactions made last year:\n");
 
-        boolean hasTransactions = false;
-
-        for (Transaction transaction : allTransactions) {
+        for (int i = allTransactions.size() - 1; i >= 0; i--) {
+            Transaction transaction = allTransactions.get(i);
             LocalDate transactionDate = LocalDate.parse(transaction.getDate(), frmt);
 
             if (transactionDate.getYear() == year) {
@@ -476,7 +478,76 @@ public class Main {
         }
     }
 
-    public static void vendorSearch() {}
+    public static void vendorSearch() {
+        boolean hasTransactions = false;
 
-    public static void customSearch() {}
+        System.out.print("\nPlease enter the vendor name to view related transactions: ");
+        String vendor = inputscnr.nextLine();
+
+        System.out.println("\nDisplaying all transactions made with \"" + vendor + "\":\n");
+
+        for (int i = allTransactions.size() - 1; i >= 0; i--) {
+            Transaction transaction = allTransactions.get(i);
+            String transactionVendor = transaction.getVendor();
+
+            if (transactionVendor.equalsIgnoreCase(vendor)) {
+                System.out.printf("Date: %s, Time: %s, Description: %s, Vendor: %s, Amount: $%.2f%n",
+                        transaction.getDate(),
+                        transaction.getTime(),
+                        transaction.getDescription(),
+                        transaction.getVendor(),
+                        transaction.getAmount());
+                hasTransactions = true;
+            }
+        }
+
+        if (!hasTransactions) {
+            System.out.println("No transactions have been made with \"" + vendor + "\".");
+        }
+    }
+
+    public static void customSearch() {
+        boolean hasTransactions = false;
+        DateTimeFormatter frmt = DateTimeFormatter.ofPattern("yyyy-MM-dd");
+
+        System.out.println("\nPlease enter your search criteria below (leave fields blank to skip) -\n");
+
+        System.out.print("Start Date (yyyy-MM-dd): ");
+        String startDate = inputscnr.nextLine();
+        System.out.print("End Date (yyyy-MM-dd): ");
+        String endDate = inputscnr.nextLine();
+        System.out.print("Description: ");
+        String description = inputscnr.nextLine();
+        System.out.print("Vendor: ");
+        String vendor = inputscnr.nextLine();
+        System.out.print("Amount: ");
+        String amount = inputscnr.nextLine();
+
+        System.out.println("\nDisplaying all transactions that match the specified criteria:\n");
+
+        for (int i = allTransactions.size() - 1; i >= 0; i--) {
+            Transaction transaction = allTransactions.get(i);
+            LocalDate transactionDate = LocalDate.parse(transaction.getDate(), frmt);
+
+            boolean matchesStartDate = startDate.isEmpty() || !transactionDate.isBefore(LocalDate.parse(startDate, frmt));
+            boolean matchesEndDate = endDate.isEmpty() || !transactionDate.isAfter(LocalDate.parse(endDate, frmt));
+            boolean matchesDescription = description.isEmpty() || transaction.getDescription().equalsIgnoreCase(description);
+            boolean matchesVendor = vendor.isEmpty() || transaction.getVendor().equalsIgnoreCase(vendor);
+            boolean matchesAmount = amount.isEmpty() || transaction.getAmount() == Double.parseDouble(amount);
+
+            if (matchesStartDate && matchesEndDate && matchesDescription && matchesVendor && matchesAmount) {
+                System.out.printf("Date: %s, Time: %s, Description: %s, Vendor: %s, Amount: $%.2f%n",
+                        transaction.getDate(),
+                        transaction.getTime(),
+                        transaction.getDescription(),
+                        transaction.getVendor(),
+                        transaction.getAmount());
+                hasTransactions = true;
+            }
+        }
+
+        if (!hasTransactions) {
+            System.out.println("No transactions match the specified criteria.");
+        }
+    }
 }

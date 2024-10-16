@@ -1,22 +1,25 @@
 date|time|description|vendor|amount
-2024-10-01|09:07:34|Salary|Company|3000.00
-2024-10-01|12:12:45|Rent Payment|Landlord|-1200.00
-2024-10-02|10:15:22|Web Services|Web Agency|-800.00
-2024-10-02|14:45:30|Office Supplies|Office Supply Co|-150.75
-2024-10-03|10:58:02|Client Lunch|Cafe|-45.20
-2024-10-03|17:13:49|Payment Received|Client|2500.00
-2024-10-04|10:21:00|Coffee Supplies|Cafe|-75.00
-2024-10-04|16:08:15|Marketing Expense|Marketing Agency|-500.00
-2024-10-05|09:36:55|Deposit|Client Retainer|500.00
-2024-10-05|11:45:05|Consulting Fee|Consulting Firm|-200.00
-2024-10-06|09:12:10|Software Subscription|Software Co|-25.00
-2024-10-06|11:28:17|Software License|Tech Vendor|-200.00
-2024-10-07|14:48:56|Networking Event|Event Organizer|-50.00
-2024-10-07|15:17:23|Deposit|Client Payment|1500.00
-2024-10-08|13:04:35|Office Equipment|Office Supply Co|-250.00
-2024-10-08|16:10:59|Savings Transfer|Bank|1000.00
-2024-10-09|08:22:14|Travel Expense|Travel Co|-300.00
-2024-10-09|13:09:50|Website Maintenance|Web Agency|-400.00
-2024-10-10|14:14:31|Deposit|Client Payment|2000.00
-2024-10-10|15:24:43|Marketing Campaign|Marketing Agency|-300.00
-2023-10-10|15:24:43|Marketing Campaign|Marketing Agency|-300.00
+2023-11-15|09:07:34|Consulting Income|Consulting Firm|3200.00
+2023-11-30|12:12:45|Rent Payment|Landlord|-1200.00
+2023-12-01|10:15:22|Web Development|Web Agency|-900.00
+2023-12-15|14:45:30|Office Supplies|Office Supply Co|-175.50
+2024-01-03|17:13:49|Client Payment|Client|2700.00
+2024-01-15|10:21:00|Coffee Supplies|Cafe|-85.00
+2024-01-25|09:36:55|Retainer Fee|Client|700.00
+2024-02-05|11:45:05|Consulting Fee|Consulting Firm|-250.00
+2024-02-15|09:12:10|Software Subscription|Software Co|-30.00
+2024-03-01|14:48:56|Networking Event|Event Organizer|-75.00
+2024-03-10|16:08:15|Marketing Expense|Marketing Agency|-450.00
+2024-04-05|10:21:00|Client Lunch|Cafe|-60.00
+2024-04-15|10:15:22|Office Equipment|Office Supply Co|-300.00
+2024-05-20|13:04:35|Business Trip|Travel Co|-320.00
+2024-06-01|09:00:00|Consulting Income|Consulting Firm|1200.00
+2024-07-10|11:28:17|Web Services|Web Agency|-400.00
+2024-08-15|14:00:00|Software License|Tech Vendor|-210.00
+2024-09-05|12:12:45|Marketing Campaign|Marketing Agency|-350.00
+2024-09-15|10:15:22|Client Payment|Client|3300.00
+2024-09-20|10:15:22|Training Workshop|Event Organizer|-150.00
+2024-10-01|09:00:00|Deposit|Client Retainer|1500.00
+2024-10-02|10:30:00|Office Supplies|Office Supply Co|-100.00
+2024-10-05|12:00:00|Consulting Fee|Consulting Firm|-200.00
+2024-10-10|14:00:00|Travel Expense|Travel Co|-150.00
