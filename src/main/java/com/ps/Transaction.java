@@ -1,13 +1,20 @@
+/*
+ * Transaction class represents a single financial transaction,
+ * including date, time, description, vendor, and amount
+ */
+
 package com.ps;
 
 public class Transaction {
 
+    // Transaction attributes
     private String date;
     private String time;
     private String description;
     private String vendor;
     private double amount;
 
+    // Constructor for initializing a Transaction object with specific attributes
     public Transaction(String date,
                        String time,
                        String description,
@@ -19,6 +26,8 @@ public class Transaction {
         this.vendor = vendor;
         this.amount = amount;
     }
+
+    // Getters and Setters for each attribute
 
     public String getDate() {
         return date;
@@ -50,6 +59,8 @@ public class Transaction {
         this.amount = amount;
     }
 
+    // Returns a string representation of the transaction,
+    // which is useful for logging and debugging purposes
     @Override
     public String toString() {
         return "Transaction{" +
