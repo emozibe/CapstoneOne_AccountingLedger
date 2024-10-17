@@ -122,6 +122,7 @@ public class Main {
             System.out.print("Amount: $");
             double amount = inputscnr.nextDouble();
             inputscnr.nextLine();
+            amount = Math.abs(amount);
 
             // Create a new Transaction object and add it to the transaction list
             Transaction transaction = new Transaction(date, time, description, vendor, amount);
@@ -205,7 +206,7 @@ public class Main {
             System.out.print("Amount: $");
             double amount = inputscnr.nextDouble();
             inputscnr.nextLine();
-
+            amount = Math.abs(amount);
             amount *= -1;
 
             // Create a new Transaction object and add it to the transaction list
@@ -590,6 +591,21 @@ public class Main {
     // Prompts user to enter a vendor name and displays all transactions with that vendor
     public static void vendorSearch() {
         boolean hasTransactions = false;
+        ArrayList <String> uniqueVendors = new ArrayList<>();
+
+        // Collect unique vendors
+        for (Transaction transaction : allTransactions) {
+            String vendor = transaction.getVendor();
+            if (!uniqueVendors.contains(vendor)) {
+                uniqueVendors.add(vendor);
+            }
+        }
+
+        // Display unique vendors to user
+        System.out.println("\nDisplaying all unique vendors:");
+        for (String vendor : uniqueVendors) {
+            System.out.println(" - " + vendor);
+        }
 
         System.out.print("\nPlease enter the vendor name to view related transactions: ");
         String vendor = inputscnr.nextLine();
@@ -627,17 +643,55 @@ public class Main {
 
         System.out.println("\nPlease enter your search criteria below (leave fields blank to skip) -\n");
 
-        // Gather search criteria from user
-        System.out.print("Start Date (yyyy-MM-dd): ");
-        String startDate = inputscnr.nextLine();
-        System.out.print("End Date (yyyy-MM-dd): ");
-        String endDate = inputscnr.nextLine();
+        // Gather and validate start date input
+        String startDate;
+        while (true) {
+            System.out.print("Start Date (yyyy-MM-dd): ");
+            startDate = inputscnr.nextLine();
+            if (startDate.isEmpty()) break;
+            try {
+                LocalDate.parse(startDate, frmt);
+                break;
+            } catch (Exception e) {
+                System.out.println("\nInvalid date format. Please use \"yyyy-MM-dd\".\n");
+            }
+        }
+
+        // Gather and validate end date input
+        String endDate;
+        while (true) {
+            System.out.print("End Date (yyyy-MM-dd): ");
+            endDate = inputscnr.nextLine();
+            if (endDate.isEmpty()) break;
+            try {
+                LocalDate.parse(endDate, frmt);
+                break;
+            } catch (Exception e) {
+                System.out.println("\nInvalid date format. Please use \"yyyy-MM-dd\".\n");
+            }
+        }
+
+        // Gather and validate description input
         System.out.print("Description: ");
         String description = inputscnr.nextLine();
+
+        // Gather and validate vendor input
         System.out.print("Vendor: ");
         String vendor = inputscnr.nextLine();
-        System.out.print("Amount: ");
-        String amount = inputscnr.nextLine();
+
+        // Gather and validate amount input
+        Double amount = null;
+        while (true) {
+            System.out.print("Amount: ");
+            String amountInput = inputscnr.nextLine();
+            if (amountInput.isEmpty()) break;
+            try {
+                amount = Double.parseDouble(amountInput);
+                break;
+            } catch (NumberFormatException e) {
+                System.out.println("\nInvalid amount. Please enter a valid number.\n");
+            }
+        }
 
         System.out.println("\nDisplaying all transactions that match the specified criteria:\n");
 
@@ -650,7 +704,7 @@ public class Main {
             boolean matchesEndDate = endDate.isEmpty() || !transactionDate.isAfter(LocalDate.parse(endDate, frmt));
             boolean matchesDescription = description.isEmpty() || transaction.getDescription().equalsIgnoreCase(description);
             boolean matchesVendor = vendor.isEmpty() || transaction.getVendor().equalsIgnoreCase(vendor);
-            boolean matchesAmount = amount.isEmpty() || transaction.getAmount() == Double.parseDouble(amount);
+            boolean matchesAmount = amount == null || transaction.getAmount() == amount;
 
             // Display transaction if all provided criteria are met
             if (matchesStartDate && matchesEndDate && matchesDescription && matchesVendor && matchesAmount) {
