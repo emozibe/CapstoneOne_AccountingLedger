@@ -307,7 +307,7 @@ public class Main {
                         mainMenu();
                         break;
                     default:
-                        System.out.println("\nInvalid choice. Please try again.");
+                        System.out.println("\nInvalid choice. Please try again.\n");
                         choice = 0; // Reset choice for re-prompt
                 }
             } catch (Exception e) {
@@ -435,7 +435,7 @@ public class Main {
                         mainMenu();
                         break;
                     default:
-                        System.out.println("\nInvalid choice. Please try again.");
+                        System.out.println("\nInvalid choice. Please try again.\n");
                         choice = 0; // Reset choice for re-prompt
                 }
             } catch (Exception e) {
