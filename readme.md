@@ -53,7 +53,7 @@ viewing, adding, and filtering transactions. Users can generate reports, search 
 
 ## Screenshots
 
-Below are screenshots showcasing the different menus of the Financial Transaction Tracking Application, along with a GIF demonstrating the display of all transactions.
+Below are screenshots showcasing the different menus of the Accounting Ledger Application, along with a GIF demonstrating the display of all transactions.
 
 ### Main Menu
 ![Main Menu](assets/MainMenu.png)
